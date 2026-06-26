@@ -9,7 +9,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common'
-import { ApiBody, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger'
+import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
 import { OrderService } from './order.service'
 import { CreateOrderDto } from './dto/order.dto'
 
