@@ -113,5 +113,29 @@ export class OrderService {
     })
   }
 
+  async cancelOrder(orderId: string): Promise<order | undefined | null> {
+    const order = await this.prisma.order.findFirst({
+      where: {
+        id: orderId,
+        deleted_at: null,
+      },
+    })
 
+    if (!order) {
+      throw new BadRequestException('Order not found')
+    }
+
+    if (order.status !== 'PENDING') {
+      throw new BadRequestException('Request not valid, only PENDING order can be cancelled')
+    }
+
+    return await this.prisma.order.update({
+      where: {
+        id: orderId
+      },
+      data: {
+        status: 'CANCELLED'
+      }
+    })
+  }
 }

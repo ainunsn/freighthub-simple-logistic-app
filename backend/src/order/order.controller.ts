@@ -65,4 +65,13 @@ export class OrderController {
   patchOrder(@Param('orderId') orderId: string, @Body() order: Partial<CreateOrderDto>) {
     return this.orderService.patchOrder(orderId, order)
   }
+
+  // Update Order
+  @HttpCode(HttpStatus.OK)
+  @Patch('order/:orderId/cancel')
+  @ApiBody({ type: CreateOrderDto })
+  @ApiResponse({ status: 200, description: 'Success' })
+  cancelOrder(@Param('orderId') orderId: string) {
+    return this.orderService.cancelOrder(orderId)
+  }
 }
