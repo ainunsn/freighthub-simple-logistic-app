@@ -4,6 +4,7 @@ import { order, OrderStatus } from 'generated/prisma/client'
 import { ulid } from 'ulid'
 import { CreateOrderDto, GetOrdersResponseDto, OrderQueryDto } from './dto/order.dto'
 import { generateTrackingNumber } from 'src/common/utils/tracking-number.util'
+import { orderWhereInput } from 'generated/prisma/models'
 
 @Injectable()
 export class OrderService {
@@ -27,14 +28,27 @@ export class OrderService {
     const cursor = query.cursor
     const limit = query.limit ? parseInt(query.limit) : 10
 
+    const where: orderWhereInput = {
+      ...(query.tracking_number && { tracking_number: query.tracking_number }),
+      ...(query.status && { status: query.status }),
+      ...(query.sender_name && {
+        sender_name: {
+          contains: query.sender_name,
+          mode: 'insensitive',
+        },
+      }),
+
+      ...(query.recipient_name && {
+        recipient_name: {
+          contains: query.recipient_name,
+          mode: 'insensitive',
+        },
+      }),
+      deleted_at: null,
+    }
+
     const orders = await this.prisma.order.findMany({
-      where: {
-        ...(query.tracking_number && { tracking_number: query.tracking_number }),
-        ...(query.status && { status: query.status }),
-        ...(query.sender_name && { sender_name: query.sender_name }),
-        ...(query.recipient_name && { recipient_name: query.recipient_name }),
-        deleted_at: null,
-      },
+      where: where,
       orderBy: {
         id: 'desc',
       },
@@ -45,7 +59,7 @@ export class OrderService {
     let prevCursor: string | null = null
     if (cursor) {
       const previous = await this.prisma.order.findMany({
-        where: { deleted_at: null },
+        where: where,
         orderBy: { id: 'desc' },
         cursor: { id: cursor },
         take: -limit - 1,
@@ -59,7 +73,7 @@ export class OrderService {
     const resultUsers = hasNextPage ? orders.slice(0, limit) : orders
 
     const total = await this.prisma.order.count({
-      where: { deleted_at: null },
+      where: where,
     })
 
     return {
