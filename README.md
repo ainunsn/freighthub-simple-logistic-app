@@ -22,8 +22,6 @@ Script tersebut akan:
 
 * Membuat database `logistic_app`
 * Membuat file `.env` default
-* Menginstall dependency backend dan frontend
-* Menjalankan service backend dan frontend
 
 ## Backend Configuration
 
@@ -47,6 +45,12 @@ Sesuaikan:
 * `port`
 
 dengan konfigurasi PostgreSQL lokal.
+
+## Data Seeding
+Jalankan perintah
+```
+npx prisma db seed
+```
 
 ## Frontend Configuration
 

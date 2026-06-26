@@ -15,11 +15,6 @@ DATABASE_URL="postgresql://user:password@localhost:5432/logistic_app?schema=publ
 EOF
 fi
 
-yarn install
-
-yarn start &
-BACKEND_PID=$!
-
 cd ../frontend || exit
 
 echo "Setting up frontend..."
@@ -29,10 +24,3 @@ cat <<EOF > .env
 VITE_API_URL=http://localhost:3000
 EOF
 fi
-
-yarn install
-
-yarn dev &
-FRONTEND_PID=$!
-
-wait $BACKEND_PID $FRONTEND_PID
