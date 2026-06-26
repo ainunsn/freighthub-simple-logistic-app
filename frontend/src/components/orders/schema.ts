@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const orderSchema = z.object({
   tracking_number: z
     .string()
-    .min(1, 'Tracking number is required'),
+    .min(0, 'Tracking number is required'),
 
   sender_name: z
     .string()

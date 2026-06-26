@@ -1,28 +1,47 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import CreateOrderForm from '../components/orders/CreateOrderForm'
 import { useOrderDetail } from '../hooks/useOrderDetail'
 import Spinner from '../components/commons/Spinner'
 import ErrorState from '../components/commons/ErrorState'
+import { useSaveOrder } from '../hooks/useSaveOrder'
+import toast from 'react-hot-toast'
 
 export default function DetailOrder() {
-  const params = useParams()
-  const { data, isLoading, error } = useOrderDetail(params?.id)
+  const { id } = useParams()
+  const navigate = useNavigate()
 
-  if (error) {
+  const isAdd = id === 'add'
+
+  const orderQuery = useOrderDetail(id!)
+  const saveOrder = useSaveOrder()
+
+  const onSubmit = async (values: any) => {
+    await saveOrder.mutateAsync({
+      id,
+      data: values,
+    })
+    toast.success(`Successfully ${isAdd ? 'add' : 'update'} data`)
+
+    navigate('/order')
+  }
+
+  if (saveOrder.error) {
+    toast.error('Something went wrong')
+  }
+
+  if (orderQuery.error) {
     return <ErrorState fullPage />
   }
 
-  if (isLoading) {
+  if (orderQuery.isLoading) {
     return <div className='flex justify-center items-center'>
       <Spinner />
     </div>
   }
 
   return <CreateOrderForm
-    initialValues={data?.data}
-    isAdd={params?.id === 'add'}
-    onSubmit={() => {
-      console.log('a')
-    }}
+    initialValues={orderQuery.data?.data}
+    isAdd={isAdd}
+    onSubmit={onSubmit}
   />
 }

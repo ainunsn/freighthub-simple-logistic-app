@@ -42,8 +42,6 @@ export default function CreateOrderForm({
     }
   }, [initialValues, reset])
 
-  console.log(initialValues, 'ini')
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -62,6 +60,7 @@ export default function CreateOrderForm({
           !isAdd && <input
             {...register('tracking_number')}
             className='w-full border rounded px-3 py-2 border-teal-600 disabled:opacity-50'
+            disabled
           />
         }
 

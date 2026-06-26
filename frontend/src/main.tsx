@@ -12,7 +12,7 @@ import { queryClient } from './lib/queryClient'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Toaster />
+      <Toaster position='top-right' />
       <App />
     </QueryClientProvider>
   </StrictMode>,
