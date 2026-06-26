@@ -45,12 +45,8 @@ export default function CreateOrderForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='space-y-4 bg-white p-6 rounded-lg shadow'
+      className='space-y-4'
     >
-      <h2 className='text-xl font-semibold'>
-        {isAdd ? 'Create' : 'Update'} Order
-      </h2>
-
       <div>
         <label className='block mb-1'>
           Tracking Number
