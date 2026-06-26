@@ -109,7 +109,7 @@ export class OrderService {
     return order
   }
 
-  async patchOrder(orderId: string, data: Partial<CreateOrderDto>): Promise<order | undefined | null> {
+  async patchOrder(orderId: string, data: Partial<CreateOrderDto & { status: OrderStatus }>): Promise<order | undefined | null> {
     const order = await this.prisma.order.findFirst({
       where: {
         id: orderId,
@@ -119,6 +119,10 @@ export class OrderService {
 
     if (!order) {
       throw new BadRequestException('Order not found')
+    }
+
+    if (data?.status === 'CANCELLED') {
+      throw new BadRequestException('Can\'t update to cancelled')
     }
 
     return await this.prisma.order.update({
