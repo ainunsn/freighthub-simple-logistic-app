@@ -88,3 +88,4 @@ yarn dev
 
 * Frontend: http://localhost:5173
 * Backend: http://localhost:3000
+* Swagger: http://localhost:3000/api
