@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { order } from 'generated/prisma/client'
 import { ulid } from 'ulid'
@@ -7,7 +7,7 @@ import { generateTrackingNumber } from 'src/common/utils/tracking-number.util'
 
 @Injectable()
 export class OrderService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(data: CreateOrderDto) {
     await this.prisma.order.create({
@@ -79,4 +79,26 @@ export class OrderService {
 
     return order
   }
+
+  async patchOrder(orderId: string, data: Partial<CreateOrderDto>): Promise<order | undefined | null> {
+    const order = await this.prisma.order.findFirst({
+      where: {
+        id: orderId,
+        deleted_at: null,
+      },
+    })
+
+    if (!order) {
+      throw new BadRequestException('Order not found')
+    }
+
+    return await this.prisma.order.update({
+      where: {
+        id: orderId
+      },
+      data: data
+    })
+  }
+
+
 }

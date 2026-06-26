@@ -5,10 +5,11 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common'
-import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
+import { ApiBody, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger'
 import { OrderService } from './order.service'
 import { CreateOrderDto } from './dto/order.dto'
 
@@ -19,8 +20,11 @@ export class OrderController {
   // Get Orders
   @HttpCode(HttpStatus.OK)
   @Get('orders')
+  @ApiQuery({ name: 'cursor', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  @ApiQuery({ name: 'tracking_number', required: false })
   @ApiResponse({ status: 200, description: 'Success' })
-  getUsers(
+  getOrders(
     @Query() param: { cursor: string; limit: string; tracking_number: string },
   ) {
     const cursor = param.cursor
@@ -33,15 +37,24 @@ export class OrderController {
   @Post('order')
   @ApiBody({ type: CreateOrderDto })
   @ApiResponse({ status: 200, description: 'Success' })
-  createUser(@Body() user: CreateOrderDto) {
-    return this.orderService.create(user)
+  createOrder(@Body() order: CreateOrderDto) {
+    return this.orderService.create(order)
   }
 
   // Create Order
-  @HttpCode(HttpStatus.CREATED)
+  @HttpCode(HttpStatus.OK)
   @Get('order/:orderId')
   @ApiResponse({ status: 200, description: 'Success' })
   getOrder(@Param('orderId') orderId: string) {
     return this.orderService.getOrderById(orderId)
+  }
+
+  // Update Order
+  @HttpCode(HttpStatus.OK)
+  @Patch('order/:orderId')
+  @ApiBody({ type: CreateOrderDto })
+  @ApiResponse({ status: 200, description: 'Success' })
+  patchOrder(@Param('orderId') orderId: string, @Body() order: Partial<CreateOrderDto>) {
+    return this.orderService.patchOrder(orderId, order)
   }
 }
