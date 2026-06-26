@@ -15,7 +15,7 @@ Pastikan sudah menginstall:
 Jalankan script berikut dari root project:
 
 ```bash
-sh run.sh
+sh setup-db.sh
 ```
 
 Script tersebut akan:
