@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import CursorPagination from '../components/commons/CursorPagination'
-import DataTable from '../components/commons/DataTable'
-import { useOrder } from '../hooks/useOrder'
-import StatusBadge from '../components/commons/StatusBadges'
-import Spinner from '../components/commons/Spinner'
-import ErrorState from '../components/commons/ErrorState'
+import CursorPagination from '../../components/commons/CursorPagination'
+import DataTable from '../../components/commons/DataTable'
+import { useOrder } from '../../hooks/useOrder'
+import StatusBadge from '../../components/commons/StatusBadges'
+import Spinner from '../../components/commons/Spinner'
+import ErrorState from '../../components/commons/ErrorState'
 
-export default function Employee() {
+export default function OrderPage() {
   const navigate = useNavigate()
   const [cursor, setCursor] = useState('')
   const { data, isLoading, error } = useOrder(cursor)

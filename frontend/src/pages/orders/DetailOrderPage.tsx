@@ -1,12 +1,12 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import CreateOrderForm from '../components/orders/CreateOrderForm'
-import { useOrderDetail } from '../hooks/useOrderDetail'
-import Spinner from '../components/commons/Spinner'
-import ErrorState from '../components/commons/ErrorState'
-import { useSaveOrder } from '../hooks/useSaveOrder'
+import CreateOrderForm from '../../components/orders/CreateOrderForm'
+import { useOrderDetail } from '../../hooks/useOrderDetail'
+import Spinner from '../../components/commons/Spinner'
+import ErrorState from '../../components/commons/ErrorState'
+import { useSaveOrder } from '../../hooks/useSaveOrder'
 import toast from 'react-hot-toast'
 
-export default function DetailOrder() {
+export default function DetailOrderPage() {
   const { id } = useParams()
   const navigate = useNavigate()
 

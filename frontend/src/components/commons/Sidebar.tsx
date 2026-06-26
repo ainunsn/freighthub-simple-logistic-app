@@ -18,14 +18,24 @@ export default function Sidebar() {
         <div>
           <p className='text-sm opacity-70 mb-2'>Orders</p>
           <NavLink
-            to='/orders'
+            to='/order'
             className={({ isActive }) =>
               `${baseClass} ${isActive ? activeClass : inactiveClass}`
             }
           >
             Order List
           </NavLink>
+
+          <NavLink
+            to='/track-order'
+            className={({ isActive }) =>
+              `${baseClass} ${isActive ? activeClass : inactiveClass}`
+            }
+          >
+            Track Order
+          </NavLink>
         </div>
+
       </div>
     </div>
   )

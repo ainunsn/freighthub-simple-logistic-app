@@ -78,8 +78,8 @@ export default function CreateOrderForm({
 
         <input
           {...register('sender_name')}
-          className='w-full border rounded px-3 py-2 border-teal-600 disabled:opacity-50'
-
+          className='w-full border rounded px-3 py-2 border-teal-600 disabled:opacity-50 focus:ring-teal-700 focus:ring-1'
+          disabled={!isAdd}
         />
 
         {errors.sender_name && (
@@ -96,8 +96,8 @@ export default function CreateOrderForm({
 
         <input
           {...register('recipient_name')}
-          className='w-full border rounded px-3 py-2 border-teal-600 disabled:opacity-50'
-
+          className='w-full border rounded px-3 py-2 border-teal-600 disabled:opacity-50 focus:ring-teal-700 focus:ring-1'
+          disabled={!isAdd}
         />
 
         {errors.recipient_name && (
@@ -114,8 +114,8 @@ export default function CreateOrderForm({
 
         <input
           {...register('origin')}
-          className='w-full border rounded px-3 py-2 border-teal-600 disabled:opacity-50'
-
+          className='w-full border rounded px-3 py-2 border-teal-600 disabled:opacity-50 focus:ring-teal-700 focus:ring-1'
+          disabled={!isAdd}
         />
 
         {errors.origin && (
@@ -132,8 +132,8 @@ export default function CreateOrderForm({
 
         <input
           {...register('destination')}
-          className='w-full border rounded px-3 py-2 border-teal-600 disabled:opacity-50'
-
+          className='w-full border rounded px-3 py-2 border-teal-600 disabled:opacity-50 focus:ring-teal-700 focus:ring-1'
+          disabled={!isAdd}
         />
 
         {errors.destination && (
@@ -163,10 +163,6 @@ export default function CreateOrderForm({
 
             <option value='DELIVERED'>
               Delivered
-            </option>
-
-            <option value='CANCELLED'>
-              Cancelled
             </option>
           </select>
 
