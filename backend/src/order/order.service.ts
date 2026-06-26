@@ -80,6 +80,19 @@ export class OrderService {
     return order
   }
 
+  async getOrderByTrackingNumber(trackingNumber: string): Promise<order | undefined | null> {
+    const order = await this.prisma.order.findFirst({
+      where: {
+        tracking_number: trackingNumber,
+        deleted_at: null,
+      },
+    })
+
+    console.log(order, 'order')
+
+    return order
+  }
+
   async patchOrder(orderId: string, data: Partial<CreateOrderDto>): Promise<order | undefined | null> {
     const order = await this.prisma.order.findFirst({
       where: {

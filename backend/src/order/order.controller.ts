@@ -41,12 +41,20 @@ export class OrderController {
     return this.orderService.create(order)
   }
 
-  // Create Order
+  // Get Order by Id
   @HttpCode(HttpStatus.OK)
   @Get('order/:orderId')
   @ApiResponse({ status: 200, description: 'Success' })
   getOrder(@Param('orderId') orderId: string) {
     return this.orderService.getOrderById(orderId)
+  }
+
+  // Search Tracking Number
+  @HttpCode(HttpStatus.OK)
+  @Get('order/track/:trackingNumber')
+  @ApiResponse({ status: 200, description: 'Success' })
+  getOrderByTrackingNumber(@Param('trackingNumber') trackingNumber: string) {
+    return this.orderService.getOrderByTrackingNumber(trackingNumber)
   }
 
   // Update Order
