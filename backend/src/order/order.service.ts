@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { order } from 'generated/prisma/client'
+import { order, OrderStatus } from 'generated/prisma/client'
 import { ulid } from 'ulid'
-import { CreateOrderDto, GetOrdersResponseDto } from './dto/order.dto'
+import { CreateOrderDto, GetOrdersResponseDto, OrderQueryDto } from './dto/order.dto'
 import { generateTrackingNumber } from 'src/common/utils/tracking-number.util'
 
 @Injectable()
@@ -23,14 +23,16 @@ export class OrderService {
     })
   }
 
-  async getOrders(
-    cursor?: string,
-    limit: number = 10,
-    trackingNumber?: string,
-  ): Promise<GetOrdersResponseDto | null> {
+  async getOrders(query: OrderQueryDto): Promise<GetOrdersResponseDto | null> {
+    const cursor = query.cursor
+    const limit = query.limit ? parseInt(query.limit) : 10
+
     const orders = await this.prisma.order.findMany({
       where: {
-        ...(trackingNumber && { tracking_number: trackingNumber }),
+        ...(query.tracking_number && { tracking_number: query.tracking_number }),
+        ...(query.status && { status: query.status }),
+        ...(query.sender_name && { sender_name: query.sender_name }),
+        ...(query.recipient_name && { recipient_name: query.recipient_name }),
         deleted_at: null,
       },
       orderBy: {

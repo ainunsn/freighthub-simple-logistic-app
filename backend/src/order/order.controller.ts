@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common'
 import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger'
 import { OrderService } from './order.service'
-import { CreateOrderDto } from './dto/order.dto'
+import { CreateOrderDto, OrderQueryDto } from './dto/order.dto'
 
 @Controller('')
 export class OrderController {
@@ -23,13 +23,14 @@ export class OrderController {
   @ApiQuery({ name: 'cursor', required: false })
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'tracking_number', required: false })
+  @ApiQuery({ name: 'status', required: false })
+  @ApiQuery({ name: 'recipient_name', required: false })
+  @ApiQuery({ name: 'sender_name', required: false })
   @ApiResponse({ status: 200, description: 'Success' })
   getOrders(
-    @Query() param: { cursor: string; limit: string; tracking_number: string },
+    @Query() query: OrderQueryDto,
   ) {
-    const cursor = param.cursor
-    const limit = param.limit ? parseInt(param.limit) : 10
-    return this.orderService.getOrders(cursor, limit, param.tracking_number)
+    return this.orderService.getOrders(query)
   }
 
   // Create Order

@@ -3,6 +3,7 @@ import { AppModule } from './app.module'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { ResponseInterceptor } from './common/interceptors/response.interceptors'
 import { HttpExceptionFilter } from './common/filters/http-exception.filter'
+import { ValidationPipe } from '@nestjs/common'
 import 'dotenv/config'
 
 async function bootstrap() {
@@ -11,6 +12,12 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor())
   app.useGlobalFilters(new HttpExceptionFilter())
   app.enableCors()
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    }),
+  );
 
   const version = require('../../package.json').version || '1.0.0'
 
